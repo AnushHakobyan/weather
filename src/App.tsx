@@ -1,31 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getCurrentWeather } from './WeatherApi';
-import logo from './logo.svg';
+import Weather from './Weather';
 import './App.css';
 
 function App() {
+  const [data, setData] = useState({});
   useEffect( () => {
     const get = async () => {
-      const res = await getCurrentWeather('London');
+      const response = await getCurrentWeather('London');
+      setData(response);
     };
     get();
   }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/*@ts-ignore*/}
+      {!!data && <Weather { ...data } />}
     </div>
   );
 }
